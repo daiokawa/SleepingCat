@@ -2,7 +2,7 @@
 
 A peaceful desktop companion that sleeps at the top of your screen. Watch as the cat's tail gently sways while it dreams.
 
-Available for macOS and Windows!
+## 🎉 Available for macOS and Windows! 🎉
 
 https://github.com/user-attachments/assets/c2ed51d1-18f2-42eb-8258-3207bf892022
 
