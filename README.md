@@ -15,14 +15,14 @@ A peaceful desktop companion that sleeps at the top of your screen. Watch as the
 ## 📦 Installation
 
 ### Easy Install
-1. Download the latest release from [Releases](https://github.com/yourusername/SleepingCat/releases)
+1. Download the latest release from [Releases](https://github.com/daiokawa/SleepingCat/releases)
 2. Open the DMG file
 3. Drag "Sleeping Cat" to your Applications folder
 4. Launch from Applications
 
 ### Manual Build
 ```bash
-git clone https://github.com/yourusername/SleepingCat.git
+git clone https://github.com/daiokawa/SleepingCat.git
 cd SleepingCat
 swift build -c release
 ./create_app_bundle.sh
