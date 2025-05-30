@@ -2,6 +2,10 @@
 
 A peaceful desktop companion that sleeps at the top of your screen. Watch as the cat's tail gently sways while it dreams.
 
+![Sleeping Cat Demo](sleepingcatreadme.mov)
+
+You can place your cat anywhere on your screen.
+
 ![Sleeping Cat Icon](icon_original.png)
 
 ## ✨ Features
