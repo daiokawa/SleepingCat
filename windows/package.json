@@ -24,7 +24,7 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64", "arm64"]
+          "arch": ["x64"]
         }
       ],
       "icon": "icon.ico"
@@ -35,8 +35,10 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    }
+      "allowToChangeInstallationDirectory": true,
+      "packElevateHelper": false
+    },
+    "compression": "maximum"
   },
   "keywords": []
 }
