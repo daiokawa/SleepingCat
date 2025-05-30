@@ -2,16 +2,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "SleepingCatApp",
+    name: "SleepingCat",
     platforms: [
         .macOS(.v12)
     ],
     products: [
-        .executable(name: "SleepingCatApp", targets: ["SleepingCatApp"])
+        .executable(name: "SleepingCat", targets: ["SleepingCat"])
     ],
     targets: [
         .executableTarget(
-            name: "SleepingCatApp",
+            name: "SleepingCat",
             resources: [
                 .process("Resources")
             ]

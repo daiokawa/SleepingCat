@@ -20,7 +20,7 @@ echo "Building application..."
 swift build -c release
 
 # Copy executable
-cp .build/release/SleepingCatApp "$MACOS_DIR/"
+cp .build/release/SleepingCat "$MACOS_DIR/"
 
 # Copy Info.plist
 cp Info.plist "$CONTENTS_DIR/"
@@ -36,7 +36,7 @@ cp /Users/KoichiOkawa/Downloads/cat_hybrid_v2_62.mov "$RESOURCES_DIR/cat_video.m
 echo "Note: The app needs to be updated to use the bundled video from Resources"
 
 # Make executable
-chmod +x "$MACOS_DIR/SleepingCatApp"
+chmod +x "$MACOS_DIR/SleepingCat"
 
 echo "App bundle created: $APP_NAME"
 echo "You can now drag it to Applications folder!"

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猫フレームビューアー</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .content {
+            margin-top: 220px;
+        }
+        
+        .frame-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .frame-item {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .frame-item:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .frame-item.selected {
+            border-color: #ff0000;
+            background-color: #fff0f0;
+        }
+        
+        .frame-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .frame-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .frame-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .frame-image {
+            width: 100%;
+            height: auto;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        
+        .selected-info {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        .filter-buttons {
+            margin: 10px 0;
+        }
+        
+        .copy-button {
+            background: #28a745;
+        }
+        
+        .copy-button:hover {
+            background: #218838;
+        }
+        
+        #selectedFrames {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .highlight-whiskers {
+            background: #fffacd;
+        }
+        
+        .highlight-gap {
+            background: #e6f3ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h1>猫フレームビューアー</h1>
+        <p>フレームをクリックまたはチェックボックスで選択してください。</p>
+        
+        <div class="filter-buttons">
+            <button onclick="selectRange(20, 35)">隙間期間1 (20-35)</button>
+            <button onclick="selectRange(45, 65)">隙間期間2 (45-65)</button>
+            <button onclick="selectRange(85, 100)">隙間期間3 (85-100)</button>
+            <button onclick="selectWhiskerFrames()">ヒゲエリア (25-35)</button>
+            <button onclick="clearSelection()">選択解除</button>
+        </div>
+        
+        <div class="selected-info">
+            <strong>選択中のフレーム:</strong>
+            <div id="selectedFrames">なし</div>
+            <button class="copy-button" onclick="copySelection()">選択をコピー</button>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="frame-grid" id="frameGrid"></div>
+    </div>
+    
+    <script>
+        const totalFrames = 121;
+        const selectedFrames = new Set();
+        const basePath = '/Users/KoichiOkawa/Downloads/cat_frames/';
+        
+        function initializeGrid() {
+            const grid = document.getElementById('frameGrid');
+            
+            for (let i = 1; i <= totalFrames; i++) {
+                const frameNum = String(i).padStart(3, '0');
+                const frameDiv = document.createElement('div');
+                frameDiv.className = 'frame-item';
+                frameDiv.id = `frame-${i}`;
+                
+                frameDiv.innerHTML = `
+                    <div class="frame-header">
+                        <span class="frame-number">Frame ${frameNum}</span>
+                        <input type="checkbox" class="frame-checkbox" 
+                               id="check-${i}" 
+                               onchange="toggleFrame(${i})">
+                    </div>
+                    <img src="file://${basePath}frame_${frameNum}.png" 
+                         alt="Frame ${frameNum}" 
+                         class="frame-image"
+                         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect width=%22300%22 height=%22200%22 fill=%22%23ddd%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22>Frame ${frameNum} - 画像が見つかりません</text></svg>'">
+                `;
+                
+                frameDiv.onclick = (e) => {
+                    if (e.target.type !== 'checkbox') {
+                        toggleFrame(i);
+                        document.getElementById(`check-${i}`).checked = selectedFrames.has(i);
+                    }
+                };
+                
+                grid.appendChild(frameDiv);
+            }
+        }
+        
+        function toggleFrame(frameNum) {
+            const frameDiv = document.getElementById(`frame-${frameNum}`);
+            const checkbox = document.getElementById(`check-${frameNum}`);
+            
+            if (selectedFrames.has(frameNum)) {
+                selectedFrames.delete(frameNum);
+                frameDiv.classList.remove('selected');
+            } else {
+                selectedFrames.add(frameNum);
+                frameDiv.classList.add('selected');
+            }
+            
+            updateSelectedDisplay();
+        }
+        
+        function selectRange(start, end) {
+            clearSelection();
+            for (let i = start; i <= end && i <= totalFrames; i++) {
+                selectedFrames.add(i);
+                document.getElementById(`frame-${i}`).classList.add('selected');
+                document.getElementById(`check-${i}`).checked = true;
+            }
+            updateSelectedDisplay();
+        }
+        
+        function selectWhiskerFrames() {
+            selectRange(25, 35);
+        }
+        
+        function clearSelection() {
+            selectedFrames.clear();
+            document.querySelectorAll('.frame-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.frame-checkbox').forEach(cb => {
+                cb.checked = false;
+            });
+            updateSelectedDisplay();
+        }
+        
+        function updateSelectedDisplay() {
+            const display = document.getElementById('selectedFrames');
+            if (selectedFrames.size === 0) {
+                display.textContent = 'なし';
+            } else {
+                const sorted = Array.from(selectedFrames).sort((a, b) => a - b);
+                display.textContent = sorted.map(n => `frame_${String(n).padStart(3, '0')}`).join(', ');
+            }
+        }
+        
+        function copySelection() {
+            const sorted = Array.from(selectedFrames).sort((a, b) => a - b);
+            const text = sorted.map(n => `frame_${String(n).padStart(3, '0')}`).join(', ');
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('選択したフレーム番号をコピーしました！');
+            }).catch(err => {
+                console.error('コピーに失敗しました:', err);
+                alert('コピーに失敗しました。手動でコピーしてください: ' + text);
+            });
+        }
+        
+        // ドラッグ選択機能
+        let isDragging = false;
+        let dragStart = null;
+        
+        document.addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('frame-item') || e.target.closest('.frame-item')) {
+                isDragging = true;
+                dragStart = parseInt(e.target.closest('.frame-item').id.split('-')[1]);
+            }
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging && e.target.closest('.frame-item')) {
+                const currentFrame = parseInt(e.target.closest('.frame-item').id.split('-')[1]);
+                const start = Math.min(dragStart, currentFrame);
+                const end = Math.max(dragStart, currentFrame);
+                
+                // Clear previous selection
+                clearSelection();
+                
+                // Select range
+                for (let i = start; i <= end; i++) {
+                    selectedFrames.add(i);
+                    document.getElementById(`frame-${i}`).classList.add('selected');
+                    document.getElementById(`check-${i}`).checked = true;
+                }
+                
+                updateSelectedDisplay();
+            }
+        });
+        
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        // Initialize on load
+        initializeGrid();
+    </script>
+</body>
+</html>
