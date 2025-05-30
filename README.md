@@ -6,7 +6,7 @@ A peaceful desktop companion that sleeps at the top of your screen. Watch as the
 
 ### 📥 Quick Download
 - **macOS**: [Download DMG](https://github.com/daiokawa/SleepingCat/releases/latest/download/SleepingCat.dmg)
-- **Windows**: Build from source (see [Windows Installation](#windows) below)
+- **Windows**: [Download Installer](https://github.com/daiokawa/SleepingCat/releases/latest) (Sleeping Cat Setup.exe)
 
 https://github.com/user-attachments/assets/c2ed51d1-18f2-42eb-8258-3207bf892022
 
@@ -38,16 +38,20 @@ swift build -c release
 ./create_app_bundle.sh
 ```
 
-### Windows
-Windows版は`windows/`ディレクトリにあります。
-1. リポジトリをクローン
-2. `windows/`ディレクトリに移動
-3. 以下のコマンドを実行:
+### Windows - Easy Install
+1. Download the installer from [Releases](https://github.com/daiokawa/SleepingCat/releases)
+2. Run "Sleeping Cat Setup X.X.X.exe"
+3. Follow the installation wizard
+4. Launch from Start Menu or Desktop shortcut
+
+### Windows - Build from Source
+Windows版のソースコードは`windows/`ディレクトリにあります。
 ```bash
+git clone https://github.com/daiokawa/SleepingCat.git
+cd SleepingCat/windows
 npm install
 npm run build-win
 ```
-4. `dist/`フォルダに作成されるインストーラーを実行
 
 ## 🎮 Usage
 
