@@ -6,7 +6,7 @@ def create_app_icons():
     """Create app icons in various sizes from the provided image"""
     
     # You'll need to save the image first
-    input_path = "/Users/KoichiOkawa/Desktop/SleepingCatApp/icon_original.png"
+    input_path = "/Users/KoichiOkawa/Desktop/SleepingCat/icon_original.png"
     
     if not os.path.exists(input_path):
         print(f"Please save the icon image to: {input_path}")
