@@ -4,6 +4,10 @@ A peaceful desktop companion that sleeps at the top of your screen. Watch as the
 
 ## 🎉 Available for macOS and Windows! 🎉
 
+### 📥 Quick Download
+- **macOS**: [Download DMG](https://github.com/daiokawa/SleepingCat/releases/latest/download/SleepingCat.dmg)
+- **Windows**: Build from source (see [Windows Installation](#windows) below)
+
 https://github.com/user-attachments/assets/c2ed51d1-18f2-42eb-8258-3207bf892022
 
 You can place your cat anywhere on your screen like this.
