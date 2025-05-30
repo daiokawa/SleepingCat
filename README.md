@@ -1,6 +1,8 @@
-# 🐱 Sleeping Cat - Desktop Companion for macOS
+# 🐱 Sleeping Cat - Desktop Companion
 
 A peaceful desktop companion that sleeps at the top of your screen. Watch as the cat's tail gently sways while it dreams.
+
+Available for macOS and Windows!
 
 https://github.com/user-attachments/assets/c2ed51d1-18f2-42eb-8258-3207bf892022
 
@@ -18,19 +20,30 @@ You can place your cat anywhere on your screen like this.
 
 ## 📦 Installation
 
-### Easy Install
+### macOS - Easy Install
 1. Download the latest release from [Releases](https://github.com/daiokawa/SleepingCat/releases)
 2. Open the DMG file
 3. Drag "Sleeping Cat" to your Applications folder
 4. Launch from Applications
 
-### Manual Build
+### macOS - Manual Build
 ```bash
 git clone https://github.com/daiokawa/SleepingCat.git
 cd SleepingCat
 swift build -c release
 ./create_app_bundle.sh
 ```
+
+### Windows
+Windows版は`windows/`ディレクトリにあります。
+1. リポジトリをクローン
+2. `windows/`ディレクトリに移動
+3. 以下のコマンドを実行:
+```bash
+npm install
+npm run build-win
+```
+4. `dist/`フォルダに作成されるインストーラーを実行
 
 ## 🎮 Usage
 
@@ -40,15 +53,27 @@ swift build -c release
 
 ## 🖥 System Requirements
 
+### macOS
 - macOS 10.15 (Catalina) or later
 - Apple Silicon or Intel Mac
 
+### Windows
+- Windows 10/11
+- 64-bit system
+
 ## 🛠 Technical Details
 
+### macOS
 - Built with Swift and AppKit
 - Uses AVFoundation for smooth video playback
 - Hybrid static/animated approach for optimal performance
 - ProRes 4444 video format with alpha channel
+
+### Windows
+- Built with Electron
+- WebM video format with VP9 codec for transparency
+- Transparent frameless window
+- Cross-platform JavaScript/HTML5
 
 ## 📝 License
 
