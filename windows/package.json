@@ -1,0 +1,37 @@
+{
+  "name": "sleeping-cat-windows",
+  "version": "1.0.0",
+  "description": "A peaceful desktop companion for Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-win": "electron-builder --win",
+    "build-all": "electron-builder -mw"
+  },
+  "author": "daiokawa",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.daiokawa.sleepingcat",
+    "productName": "Sleeping Cat",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "mac": {
+      "category": "public.app-category.entertainment",
+      "icon": "icon.icns"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "keywords": []
+}
