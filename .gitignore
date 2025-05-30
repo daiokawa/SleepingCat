@@ -1,0 +1,46 @@
+# Xcode
+.build/
+DerivedData/
+*.xcodeproj
+*.xcworkspace
+*.xcuserdata
+
+# Swift Package Manager
+Packages/
+Package.resolved
+.swiftpm
+
+# macOS
+.DS_Store
+*.swp
+*~
+.Trashes
+
+# Build artifacts
+*.app
+!Sleeping Cat.app
+*.dmg
+*.pkg
+*.dSYM
+*.icns
+!SleepingCat.icns
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary files
+*.tmp
+*.log
+nohup.out
+server.log
+
+# Video processing
+cat_frames/
+cat_frames_*
+Icons/
+SleepingCat.iconset/
+
+# Keep the final video
+!cat_hybrid_v2_62.mov
