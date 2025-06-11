@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sleeping Cat</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+      -webkit-app-region: drag;
+      user-select: none;
+    }
+    
+    #video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      transform-origin: center center;
+      transition: transform 0.8s ease-out;
+    }
+    
+    /* Animation classes for scaling */
+    .scale-animation-grow {
+      animation: growAnimation 0.8s cubic-bezier(0.2, 0.8, 0.3, 1.05) forwards;
+    }
+    
+    .scale-animation-shrink {
+      animation: shrinkAnimation 0.6s cubic-bezier(0.1, 0.25, 0.25, 1) forwards;
+    }
+    
+    @keyframes growAnimation {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(var(--target-scale));
+      }
+    }
+    
+    @keyframes shrinkAnimation {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(var(--target-scale));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="video-container">
+    <video id="cat-video" autoplay loop muted>
+      <source src="cat_video.webm" type="video/webm">
+    </video>
+  </div>
+  
+  <script>
+    const { ipcRenderer } = require('electron');
+    
+    const video = document.getElementById('cat-video');
+    let currentVideoScale = 1.0;
+    
+    // Handle scale animations from main process
+    ipcRenderer.on('scale-animation', (event, data) => {
+      const { scale, duration } = data;
+      const relativeScale = scale / currentVideoScale;
+      
+      // Set CSS variable for target scale
+      video.style.setProperty('--target-scale', relativeScale);
+      
+      // Remove existing animation classes
+      video.classList.remove('scale-animation-grow', 'scale-animation-shrink');
+      
+      // Add appropriate animation class
+      if (relativeScale > 1) {
+        video.classList.add('scale-animation-grow');
+      } else {
+        video.classList.add('scale-animation-shrink');
+      }
+      
+      // Update scale after animation
+      setTimeout(() => {
+        currentVideoScale = scale;
+        video.style.transform = `scale(${scale})`;
+        video.classList.remove('scale-animation-grow', 'scale-animation-shrink');
+      }, duration);
+    });
+    
+    // Ensure video loops properly
+    video.addEventListener('ended', () => {
+      video.currentTime = 0;
+      video.play();
+    });
+    
+    // Handle video loading errors
+    video.addEventListener('error', (e) => {
+      console.error('Video loading error:', e);
+    });
+  </script>
+</body>
+</html>
