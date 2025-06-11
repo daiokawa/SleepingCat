@@ -1,6 +1,11 @@
 import AppKit
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+// Protocol for menu update notification
+protocol MenuUpdateDelegate: AnyObject {
+    func updateMenuItems()
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, MenuUpdateDelegate {
     var catWindow: CatWindow!
     var statusItem: NSStatusItem!
     
@@ -25,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         catWindow = CatWindow()
+        catWindow.menuUpdateDelegate = self
         catWindow.makeKeyAndOrderFront(nil)
         
         NSApp.setActivationPolicy(.accessory)
@@ -40,56 +46,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.title = "🐱"
         }
         
-        statusItem.menu = createMenu()
+        // Set menu delegate to update dynamically
+        let menu = createMenu()
+        menu.delegate = self
+        statusItem.menu = menu
+        
+        // Initial update
+        updateMenuItems()
     }
     
     func createMenu() -> NSMenu {
         let menu = NSMenu()
         
-        let largerItem = NSMenuItem(title: "大きくする", action: #selector(makeLarger), keyEquivalent: "")
-        largerItem.target = self
-        menu.addItem(largerItem)
-        
-        let smallerItem = NSMenuItem(title: "小さくする", action: #selector(makeSmaller), keyEquivalent: "")
-        smallerItem.target = self
-        menu.addItem(smallerItem)
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        let quitItem = NSMenuItem(title: "終了", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "終了 / Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "")
         menu.addItem(quitItem)
         
         return menu
     }
     
     func updateMenuItems() {
-        guard let menu = statusItem.menu else { return }
-        
-        let scale = catWindow?.currentScale ?? 1.0
-        
-        // Update larger item
-        if let largerItem = menu.item(at: 0) {
-            largerItem.isEnabled = scale < 2.5  // Disable if scale would exceed 3.0
-        }
-        
-        // Update smaller item
-        if let smallerItem = menu.item(at: 1) {
-            smallerItem.isEnabled = scale > 0.6  // Disable if scale would go below 0.5
-        }
+        // Nothing to update anymore
     }
     
     @objc func makeLarger() {
-        catWindow?.adjustSize(scale: 1.2)
-        updateMenuItems()
+        catWindow?.makeLarger()
     }
     
     @objc func makeSmaller() {
-        catWindow?.adjustSize(scale: 0.8)
-        updateMenuItems()
+        catWindow?.makeSmaller()
+    }
+    
+    @objc func setSpecificSize(_ sender: NSMenuItem) {
+        guard let scale = sender.representedObject as? CGFloat else { return }
+        catWindow?.setScale(scale)
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
+    }
+    
+    // NSMenuDelegate - Update menu items when menu is about to be shown
+    func menuWillOpen(_ menu: NSMenu) {
+        updateMenuItems()
     }
 }
 

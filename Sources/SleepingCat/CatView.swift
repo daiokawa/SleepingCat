@@ -68,8 +68,8 @@ class CatView: NSView {
         if let bundlePath = Bundle.main.path(forResource: "cat_video", ofType: "mov") {
             videoURL = URL(fileURLWithPath: bundlePath)
         } else {
-            // Fallback for development
-            let videoPath = "/Users/KoichiOkawa/Downloads/cat_hybrid_v2_62.mov"
+            // Fallback for development - use trimmed version
+            let videoPath = "/Users/KoichiOkawa/Desktop/SleepingCat/Resources/cat_trimmed_top.mov"
             videoURL = URL(fileURLWithPath: videoPath)
         }
         
