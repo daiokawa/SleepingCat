@@ -1,6 +1,6 @@
 {
   "name": "sleeping-cat-windows",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A peaceful desktop companion for Windows",
   "main": "main.js",
   "scripts": {

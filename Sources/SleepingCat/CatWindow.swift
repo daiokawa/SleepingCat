@@ -2,7 +2,7 @@ import AppKit
 
 class CatWindow: NSWindow {
     private var catView: CatView!
-    private var currentScale: CGFloat = 1.0
+    var currentScale: CGFloat = 1.0
     private let baseWidth: CGFloat = 280
     private let baseHeight: CGFloat = 140
     
@@ -39,14 +39,20 @@ class CatWindow: NSWindow {
     }
     
     func setupContextMenu() {
+        updateContextMenu()
+    }
+    
+    func updateContextMenu() {
         let menu = NSMenu()
         
         let largerItem = NSMenuItem(title: "大きくする", action: #selector(makeLarger), keyEquivalent: "")
         largerItem.target = self
+        largerItem.isEnabled = currentScale < 2.5
         menu.addItem(largerItem)
         
         let smallerItem = NSMenuItem(title: "小さくする", action: #selector(makeSmaller), keyEquivalent: "")
         smallerItem.target = self
+        smallerItem.isEnabled = currentScale > 0.6
         menu.addItem(smallerItem)
         
         menu.addItem(NSMenuItem.separator())
@@ -87,5 +93,13 @@ class CatWindow: NSWindow {
         frame.origin.y = centerY - newHeight / 2
         
         self.setFrame(frame, display: true, animate: true)
+        
+        // Update context menu after resize
+        updateContextMenu()
+        
+        // Notify app delegate to update menu bar items
+        if let appDelegate = NSApp.delegate as? AppDelegate {
+            appDelegate.updateMenuItems()
+        }
     }
 }

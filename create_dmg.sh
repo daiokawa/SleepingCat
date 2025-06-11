@@ -4,8 +4,8 @@ echo "Creating DMG installer..."
 
 # Variables
 APP_NAME="Sleeping Cat"
-DMG_NAME="SleepingCat-v1.0.dmg"
-VOLUME_NAME="Sleeping Cat"
+DMG_NAME="SleepingCat-v1.1.dmg"
+VOLUME_NAME="Sleeping Cat v1.1"
 DMG_DIR="dmg_temp"
 
 # Clean up any existing DMG or temp directory

@@ -40,6 +40,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.title = "🐱"
         }
         
+        statusItem.menu = createMenu()
+    }
+    
+    func createMenu() -> NSMenu {
         let menu = NSMenu()
         
         let largerItem = NSMenuItem(title: "大きくする", action: #selector(makeLarger), keyEquivalent: "")
@@ -55,15 +59,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let quitItem = NSMenuItem(title: "終了", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         menu.addItem(quitItem)
         
-        statusItem.menu = menu
+        return menu
+    }
+    
+    func updateMenuItems() {
+        guard let menu = statusItem.menu else { return }
+        
+        let scale = catWindow?.currentScale ?? 1.0
+        
+        // Update larger item
+        if let largerItem = menu.item(at: 0) {
+            largerItem.isEnabled = scale < 2.5  // Disable if scale would exceed 3.0
+        }
+        
+        // Update smaller item
+        if let smallerItem = menu.item(at: 1) {
+            smallerItem.isEnabled = scale > 0.6  // Disable if scale would go below 0.5
+        }
     }
     
     @objc func makeLarger() {
         catWindow?.adjustSize(scale: 1.2)
+        updateMenuItems()
     }
     
     @objc func makeSmaller() {
         catWindow?.adjustSize(scale: 0.8)
+        updateMenuItems()
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
