@@ -28,9 +28,9 @@ cp Info.plist "$CONTENTS_DIR/"
 # Copy icon
 cp SleepingCat.icns "$RESOURCES_DIR/"
 
-# Copy video file (using the final version)
+# Copy video file (using the trimmed version)
 echo "Copying video resource..."
-cp /Users/KoichiOkawa/Downloads/cat_hybrid_v2_62.mov "$RESOURCES_DIR/cat_video.mov"
+cp Resources/cat_trimmed_top.mov "$RESOURCES_DIR/cat_video.mov"
 
 # Update the code to use bundled video
 echo "Note: The app needs to be updated to use the bundled video from Resources"

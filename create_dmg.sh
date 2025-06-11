@@ -4,8 +4,8 @@ echo "Creating DMG installer..."
 
 # Variables
 APP_NAME="Sleeping Cat"
-DMG_NAME="SleepingCat-v1.1.dmg"
-VOLUME_NAME="Sleeping Cat v1.1"
+DMG_NAME="SleepingCat-v1.2.dmg"
+VOLUME_NAME="Sleeping Cat v1.2"
 DMG_DIR="dmg_temp"
 
 # Clean up any existing DMG or temp directory
@@ -14,6 +14,7 @@ rm -f "$DMG_NAME"
 
 # Create temporary directory
 mkdir -p "$DMG_DIR"
+mkdir -p "$DMG_DIR/.background"
 
 # Copy app to temp directory
 cp -R "$APP_NAME.app" "$DMG_DIR/"
