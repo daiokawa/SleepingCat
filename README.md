@@ -57,7 +57,10 @@ npm run build-win
 
 - **Launch**: Double-click "Sleeping Cat" in Applications
 - **Move**: Click and drag the cat to reposition
-- **Quit**: Right-click on the cat and select "Quit" (or Cmd+Q when focused)
+- **Resize**: 
+  - Right-click on the cat and select "大きくする" (Make Larger) or "小さくする" (Make Smaller)
+  - Or use the menu bar icon 🐱
+- **Quit**: Right-click on the cat and select "終了" (Quit) or use the menu bar
 
 ## 🖥 System Requirements
 
