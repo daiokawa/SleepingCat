@@ -21,6 +21,10 @@ You can place your cat anywhere on your screen like this.
 - 🪶 Lightweight and unobtrusive
 - 🎨 Hand-drawn artwork
 - 💤 Realistic tail movement (62% static body, 38% animated tail)
+- 📏 7 size options from tiny (30%) to full screen
+- 🖥️ Multi-display support
+- 🌸 Smooth, organic animations
+- 🎯 Simple right-click controls
 
 ## 📦 Installation
 
@@ -57,10 +61,15 @@ npm run build-win
 
 - **Launch**: Double-click "Sleeping Cat" in Applications
 - **Move**: Click and drag the cat to reposition
-- **Resize**: 
-  - Right-click on the cat and select "大きくする" (Make Larger) or "小さくする" (Make Smaller)
-  - Or use the menu bar icon 🐱
-- **Quit**: Right-click on the cat and select "終了" (Quit) or use the menu bar
+- **Resize**: Right-click on the cat and select from size menu:
+  - 極小 / Tiny (30%)
+  - 小 / Small (50%)
+  - 標準 / Standard (100%)
+  - 大 / Large (150%)
+  - 特大 / Extra Large (200%)
+  - 最大 / Maximum (300%)
+  - フルスクリーン / Full Screen
+- **Quit**: Right-click and select "終了 / Quit" or use the menu bar 🐱
 
 ## 🖥 System Requirements
 
@@ -105,6 +114,14 @@ MIT License - See [LICENSE](LICENSE) file for details
 **Multiple cats appearing?**
 - This has been fixed in v1.0
 - Quit all instances and relaunch
+
+**Cat position drifting when resizing?**
+- Fixed in v1.2 with center-based scaling
+- Update to the latest version
+
+**Want different sizes?**
+- Right-click for 7 size options
+- Full screen mode maintains aspect ratio
 
 ---
 
